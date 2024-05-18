@@ -6,11 +6,16 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent } from 'vue';
 
 export default defineComponent({
-  computed: {
-    loginUrl(): string {
+  setup() {
+    const runtimeConfig = useRuntimeConfig();
+    
+    const loginUrl = computed(() => {
+      const clientId = runtimeConfig.public.clientId as string;
+      const redirectUri = runtimeConfig.public.redirectUri as string;
+      
       const scope = [
         'streaming',
         'user-read-email',
@@ -20,12 +25,23 @@ export default defineComponent({
 
       const url = new URL('https://accounts.spotify.com/authorize');
       url.searchParams.set('response_type', 'code');
-      url.searchParams.set('client_id', this.$config.spotifyClientId as string);
-      url.searchParams.set('scope', encodeURIComponent(scope));
-      url.searchParams.set('redirect_uri', encodeURIComponent(this.$config.spotifyRedirectUri as string));
+      url.searchParams.set('client_id', clientId);
+      url.searchParams.set('scope', scope);
+      url.searchParams.set('redirect_uri', redirectUri);
 
       return url.href;
-    },
+    });
+
+    return {
+      loginUrl,
+    };
   },
 });
 </script>
+
+<!-- 
+<script lang="ts">
+const runtimeConfig = useRuntimeConfig();
+const clientId    = runtimeConfig.public.clientId;
+const redirectUri = runtimeConfig.public.redirectUri;
+<script> -->
