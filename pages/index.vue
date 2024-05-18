@@ -7,8 +7,14 @@
         <p>{{ item.diary }}</p>
       </div>
     </div>
-    <UButton @click="goToSavePage">保存するボタン</UButton>
-    <UButton @click="goToPlaySong">曲を再生するテスト</UButton>
+    <div class="button-container">
+      <UButton class="custom-button" @click="goToSavePage"
+        >保存するボタン</UButton
+      >
+      <UButton class="custom-button" @click="goToPlaySong"
+        >曲を再生するテスト</UButton
+      >
+    </div>
   </div>
 </template>
 
@@ -59,6 +65,24 @@ const goToPlaySong = () => {
 .grid-item img {
   max-width: 100%;
   height: auto;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.custom-button {
+  width: 200px;
+  height: 50px;
+  font-size: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 
 @media (min-width: 1024px) {
