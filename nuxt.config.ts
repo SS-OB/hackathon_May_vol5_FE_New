@@ -3,6 +3,7 @@ import { defineNuxtConfig } from "nuxt/config";
 export default defineNuxtConfig({
   devtools: { enabled: true },
   pages: true,
+
   nitro: {
     handlers: [
       { route: "/api/item", handler: "~/server/api/item.js", override: true },
@@ -16,4 +17,6 @@ export default defineNuxtConfig({
       "/api/**": { cors: true },
     },
   },
+
+  modules: ["@nuxt/ui"]
 });
