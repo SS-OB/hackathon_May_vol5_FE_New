@@ -2,7 +2,12 @@
   <div class="save-container">
     <h1>保存画面</h1>
     <button @click="goToAuthPage">認証する</button>
-    <input v-model="query" @input="searchMusic" placeholder="曲を検索" />
+    <input
+      :class="{ valid: isValid }"
+      v-model="query"
+      @input="searchMusic"
+      placeholder="曲を検索"
+    />
     <ul>
       <li v-for="track in tracks" :key="track.id" @click="selectTrack(track)">
         {{ track.name }} - {{ track.artists[0].name }}
@@ -23,10 +28,12 @@ const tracks = ref([]);
 const selectedTrack = ref(null);
 const image = ref(null);
 const diary = ref("");
+const isValid = ref(false);
 
 const router = useRouter();
 
 const searchMusic = async () => {
+  isValid.value = false;
   if (query.value.length === 0) return;
 
   const tokenResponse = await fetch("/api/spotify-token");
@@ -48,6 +55,8 @@ const searchMusic = async () => {
 const selectTrack = (track) => {
   selectedTrack.value = track;
   query.value = `${track.name} - ${track.artists[0].name}`;
+  tracks.value = [];
+  isValid.value = true;
 };
 
 const uploadImage = (event) => {
@@ -84,6 +93,10 @@ const goToAuthPage = () => {
 
 input[type="file"] {
   margin-top: 20px;
+}
+
+.valid {
+  background-color: #82ff824d;
 }
 
 textarea {
