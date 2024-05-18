@@ -1,49 +1,47 @@
 <template>
-  <button @click="login">Sign in with Spotify</button>
+  <div>
+    <h1>Spotify Authentication</h1>
+    <a :href="loginUrl">Login with Spotify</a>
+  </div>
 </template>
 
-<script>
-import { onMounted, ref } from "vue";
+<script lang="ts">
+import { defineComponent } from 'vue';
 
-export default {
+export default defineComponent({
   setup() {
-    const loginPath = ref("");
+    const runtimeConfig = useRuntimeConfig();
+    
+    const loginUrl = computed(() => {
+      const clientId = runtimeConfig.public.clientId as string;
+      const redirectUri = runtimeConfig.public.redirectUri as string;
+      
+      const scope = [
+        'streaming',
+        'user-read-email',
+        'user-read-private',
+        'user-modify-playback-state',
+      ].join(' ');
 
-    const login = () => {
-      window.location.href = loginPath.value;
-    };
+      const url = new URL('https://accounts.spotify.com/authorize');
+      url.searchParams.set('response_type', 'code');
+      url.searchParams.set('client_id', clientId);
+      url.searchParams.set('scope', scope);
+      url.searchParams.set('redirect_uri', redirectUri);
 
-    onMounted(async () => {
-      const scopes = [
-        "streaming",
-        "user-read-email",
-        "user-read-private",
-        "playlist-modify-public",
-        "playlist-modify-private",
-      ];
-      const params = new URLSearchParams();
-      const clientId = process.env.VUE_APP_CLIENT_ID;
-      const redirectUri = process.env.VUE_APP_RETURN_TO;
-
-      if (!clientId || !redirectUri) {
-        console.error(
-          "Missing required environment variables: VUE_APP_CLIENT_ID and/or VUE_APP_RETURN_TO"
-        );
-        return;
-      }
-
-      params.append("client_id", clientId);
-      params.append("response_type", "code");
-      params.append("redirect_uri", redirectUri);
-      params.append("scope", scopes.join(" "));
-      params.append("state", "state");
-
-      loginPath.value = `https://accounts.spotify.com/authorize?${params.toString()}`;
+      return url.href;
     });
 
     return {
-      login,
+      loginUrl,
     };
   },
-};
+});
 </script>
+
+<!-- 
+<script lang="ts">
+const runtimeConfig = useRuntimeConfig();
+const clientId    = runtimeConfig.public.clientId;
+const redirectUri = runtimeConfig.public.redirectUri;
+<script> -->
