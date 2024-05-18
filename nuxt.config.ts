@@ -15,4 +15,20 @@ export default defineNuxtConfig({
       "/api/**": { cors: true },
     },
   },
+
+  app: {
+    head: {
+      title: "Music Memory App",
+      meta: [
+        { charset: "utf-8" },
+        { name: "viewport", content: "width=device-width, initial-scale=1" },
+        {
+          hid: "description",
+          name: "description",
+          content: "Music memory application built with Nuxt 3",
+        },
+      ],
+      link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
+    },
+  },
 });

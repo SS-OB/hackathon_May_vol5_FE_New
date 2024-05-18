@@ -2,7 +2,12 @@
   <div class="home-container">
     <h1>ホーム画面</h1>
     <div class="grid-container">
-      <div class="grid-item" v-for="item in items" :key="item.id">
+      <div
+        class="grid-item"
+        v-for="item in items"
+        :key="item.id"
+        @click="goToPlaySong(item.music_id)"
+      >
         <img :src="item.image_path" alt="Memory Image" />
         <p>{{ item.diary }}</p>
       </div>
@@ -35,8 +40,8 @@ const goToSavePage = () => {
   router.push("/save");
 };
 
-const goToPlaySong = () => {
-  router.push("/playsong");
+const goToPlaySong = (musicId) => {
+  router.push({ name: "playsong", params: { musicId } });
 };
 </script>
 
@@ -65,6 +70,7 @@ const goToPlaySong = () => {
 .grid-item img {
   max-width: 100%;
   height: auto;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 .button-container {
