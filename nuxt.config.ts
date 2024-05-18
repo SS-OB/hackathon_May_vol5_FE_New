@@ -4,6 +4,8 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   pages: true,
 
+  modules: ["@nuxt/ui"],
+
   runtimeConfig:{
     public:{
       clientId: process.env.SPOTIFY_CLIENT_ID,
@@ -13,17 +15,19 @@ export default defineNuxtConfig({
   },
   nitro: {
     handlers: [
-      { route: "/api/item", handler: "~/server/api/item.js"},
+      { 
+        route: "/api/item", 
+        handler: "~/server/api/item.js"
+      },
       {
         route: "/api/spotify-token",
-        handler: "~/server/api/spotify.js",
+        handler: "~/server/api/spotify.js"
       },
     ],
     routeRules: {
       "/api/**": { cors: true },
     },
   },
-  
 
-  modules: ["@nuxt/ui"],
+  
 });
