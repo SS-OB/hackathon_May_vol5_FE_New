@@ -5,8 +5,12 @@ export default defineNuxtConfig({
   pages: true,
   nitro: {
     handlers: [
-      { route: "/api/item", handler: "~/server/api/item.js" },
-      { route: "/api/spotify-token", handler: "~/server/api/spotify.js" },
+      { route: "/api/item", handler: "~/server/api/item.js", override: true },
+      {
+        route: "/api/spotify-token",
+        handler: "~/server/api/spotify.js",
+        override: true,
+      },
     ],
     routeRules: {
       "/api/**": { cors: true },
