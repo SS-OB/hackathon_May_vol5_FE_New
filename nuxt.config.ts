@@ -5,30 +5,57 @@ export default defineNuxtConfig({
   pages: true,
 
   modules: ["@nuxt/ui"],
-
   nitro: {
     handlers: [
-      { route: "/api/item", handler: "~/server/api/item.js" },
-      { route: "/api/spotify-token", handler: "~/server/api/spotify.js" },
+      {
+        route: "/api/item",
+        handler: "~/server/api/item.js",
+      },
+      {
+        route: "/api/spotify-token",
+        handler: "~/server/api/spotify.js",
+      },
     ],
     routeRules: {
-      "/api/**": { cors: true },
+      "/api/**": {
+        cors: true,
+      },
     },
   },
-
   app: {
     head: {
       title: "Music Memory App",
       meta: [
-        { charset: "utf-8" },
-        { name: "viewport", content: "width=device-width, initial-scale=1" },
+        {
+          charset: "utf-8",
+        },
+        {
+          name: "viewport",
+          content: "width=device-width, initial-scale=1",
+        },
         {
           hid: "description",
           name: "description",
           content: "Music memory application built with Nuxt 3",
         },
       ],
-      link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
+      link: [
+        {
+          rel: "icon",
+          type: "image/x-icon",
+          href: "/favicon.ico",
+        },
+      ],
+    },
+  },
+
+  hooks: {
+    "pages:extend"(routes) {
+      routes.push({
+        name: "music",
+        path: "/music/:musicid",
+        file: "/pages/music/[musicid].vue",
+      });
     },
   },
 });

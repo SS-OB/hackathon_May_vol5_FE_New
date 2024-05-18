@@ -1,0 +1,13 @@
+<template>
+  <div>
+    <iframe
+      id="spotify-player"
+      :src="`https://open.spotify.com/embed/track/${$route.params.musicid}`"
+      width="300"
+      height="380"
+      frameborder="0"
+      allowtransparency="true"
+      allow="encrypted-media"
+    ></iframe>
+  </div>
+</template>
