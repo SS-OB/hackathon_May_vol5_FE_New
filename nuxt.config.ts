@@ -5,6 +5,13 @@ export default defineNuxtConfig({
   pages: true,
 
   modules: ["@nuxt/ui"],
+  runtimeConfig:{
+    public:{
+      clientId: process.env.SPOTIFY_CLIENT_ID,
+      clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
+      redirectUri: process.env.SPOTIFY_REDIRECT_URI,
+    }
+  },
   nitro: {
     handlers: [
       {
