@@ -2,7 +2,12 @@
   <div class="home-container">
     <h1>ホーム画面</h1>
     <div class="grid-container">
-      <div class="grid-item" v-for="item in items" :key="item.id">
+      <div
+        class="grid-item"
+        v-for="item in items"
+        :key="item.id"
+        @click="goToMusicPage(item.music_id)"
+      >
         <img :src="item.image_path" alt="Memory Image" />
         <p>{{ item.diary }}</p>
       </div>
@@ -10,9 +15,6 @@
     <div class="button-container">
       <UButton class="custom-button" @click="goToSavePage"
         >保存するボタン</UButton
-      >
-      <UButton class="custom-button" @click="goToPlaySong"
-        >曲を再生するテスト</UButton
       >
     </div>
   </div>
@@ -23,7 +25,6 @@ import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 
 const items = ref([]);
-
 onMounted(async () => {
   const response = await fetch("/api/item");
   items.value = await response.json();
@@ -35,8 +36,8 @@ const goToSavePage = () => {
   router.push("/save");
 };
 
-const goToPlaySong = () => {
-  router.push("/playsong");
+const goToMusicPage = (musicid) => {
+  router.push({ name: "music", params: { musicid } });
 };
 </script>
 
@@ -65,6 +66,7 @@ const goToPlaySong = () => {
 .grid-item img {
   max-width: 100%;
   height: auto;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 .button-container {

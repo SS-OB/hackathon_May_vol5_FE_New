@@ -2,7 +2,7 @@
   <div>
     <iframe
       id="spotify-player"
-      src="https://open.spotify.com/embed/track/5KqIUmgtUmFGlylW0cRiwc"
+      :src="`https://open.spotify.com/embed/track/${$route.params.musicid}`"
       width="300"
       height="380"
       frameborder="0"
@@ -11,6 +11,3 @@
     ></iframe>
   </div>
 </template>
-
-<button id="play-button">再生</button>
-<button id="pause-button">一時停止</button>
