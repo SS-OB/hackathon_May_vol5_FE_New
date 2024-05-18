@@ -7,7 +7,8 @@
         <p>{{ item.diary }}</p>
       </div>
     </div>
-    <button @click="goToSavePage">保存するボタン</button>
+    <UButton @click="goToSavePage">保存するボタン</UButton>
+    <UButton @click="goToPlaySong">曲を再生するテスト</UButton>
   </div>
 </template>
 
@@ -23,8 +24,13 @@ onMounted(async () => {
 });
 
 const router = useRouter();
+
 const goToSavePage = () => {
   router.push("/save");
+};
+
+const goToPlaySong = () => {
+  router.push("/playsong");
 };
 </script>
 
