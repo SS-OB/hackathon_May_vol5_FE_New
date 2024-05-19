@@ -5,12 +5,12 @@ export default defineNuxtConfig({
   pages: true,
 
   modules: ["@nuxt/ui"],
-  runtimeConfig:{
-    public:{
+  runtimeConfig: {
+    public: {
       clientId: process.env.SPOTIFY_CLIENT_ID,
       clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
       redirectUri: process.env.SPOTIFY_REDIRECT_URI,
-    }
+    },
   },
   nitro: {
     handlers: [
@@ -60,7 +60,7 @@ export default defineNuxtConfig({
     "pages:extend"(routes) {
       routes.push({
         name: "music",
-        path: "/music/:musicid",
+        path: "/music/:musicid?",
         file: "/pages/music/[musicid].vue",
       });
     },
