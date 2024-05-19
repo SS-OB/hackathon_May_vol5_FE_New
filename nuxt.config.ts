@@ -4,7 +4,8 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   pages: true,
 
-  modules: ["@nuxt/ui"],
+  modules: ["@nuxt/ui", "@nuxtjs/tailwindcss", "@nuxtjs/color-mode"],
+
   runtimeConfig: {
     public: {
       clientId: process.env.SPOTIFY_CLIENT_ID,

@@ -12,7 +12,7 @@
       placeholder="曲を検索"
     />
     <ul>
-      <li v-for="track in tracks" :key="track.id" @click="selectTrack(track)">
+      <li :class="{ is_dark: isDark }" v-for="track in tracks" :key="track.id" @click="selectTrack(track)">
         {{ track.name }} - {{ track.artists[0].name }}
       </li>
     </ul>
@@ -29,6 +29,9 @@
 import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
 import { useRuntimeConfig } from "nuxt/app";
+
+const isDark = document.getElementsByTagName("html")[0].getAttribute("class") === "dark";
+console.log(isDark);
 
 const query = ref("");
 const tracks = ref([]);
@@ -151,13 +154,21 @@ ul {
 }
 
 li {
-  background-color: black;
+  background-color: #f8f8f8;
   border-radius: 5px;
   padding: 5px;
   cursor: pointer;
 }
 
+.is_dark {
+  background-color: black;
+}
+
 li:hover {
+  background-color: lightgray;
+}
+
+li:hover.is_dark {
   background-color: gray;
 }
 
