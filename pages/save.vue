@@ -71,7 +71,6 @@ const saveMemory = async () => {
     diary: diary.value,
     image_path: image.value.name,
   });
-  console.log(formData.values);
   await fetch("http://localhost:8080/item", {
     method: "POST",
     body: body,
