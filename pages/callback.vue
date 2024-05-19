@@ -86,6 +86,7 @@ const saveMemory = async () => {
 
 // 変更部分開始
 const loginUrl = computed(() => {
+  
   const clientId = runtimeConfig.public.clientId as string;
   const redirectUri = `${window.location.origin}/save`;
 
