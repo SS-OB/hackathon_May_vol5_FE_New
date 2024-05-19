@@ -25,10 +25,22 @@ import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 
 const items = ref([]);
-onMounted(async () => {
-  const response = await fetch("/api/item");
-  items.value = await response.json();
-});
+const fetchItems = async () => {
+  try {
+    const response = await fetch("http://localhost:8080/item");
+    if (response.ok) {
+      const data = await response.json();
+      console.log("Fetched items:", data); // デバッグ用ログ
+      items.value = data.items;
+    } else {
+      console.error("Failed to fetch items:", response.statusText);
+    }
+  } catch (error) {
+    console.error("Error fetching items:", error);
+  }
+};
+
+onMounted(fetchItems);
 
 const router = useRouter();
 
@@ -71,6 +83,12 @@ const goToMusicPage = (item) => {
   max-width: 100%;
   height: auto;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.grid-item img:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
 }
 
 .button-container {

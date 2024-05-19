@@ -64,18 +64,19 @@ const selectTrack = (track) => {
 
 const uploadImage = (event) => {
   image.value = event.target.files[0];
+  console.log(image.value);
 };
 
 const saveMemory = async () => {
-  const formData = new FormData();
-  formData.append("music_id", selectedTrack.value.id);
-  formData.append("memory_date", new Date().toISOString());
-  formData.append("diary", diary.value);
-  formData.append("image", image.value);
-
-  await fetch("/api/item", {
+  const body = JSON.stringify({
+    music_id: selectedTrack.value.id,
+    memory_date: new Date().toISOString().slice(0, 10),
+    diary: diary.value,
+    image_path: image.value.name,
+  });
+  await fetch("http://localhost:8080/item", {
     method: "POST",
-    body: formData,
+    body: body,
   });
 
   router.push("/");
