@@ -19,9 +19,11 @@
   </div>
 </template>
 
-<script setup>
-import { ref } from "vue";
+<!-- <script setup> -->
+<script lang="ts" setup>
+import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
+import { useRuntimeConfig } from 'nuxt/app';
 
 const query = ref("");
 const tracks = ref([]);
@@ -31,6 +33,7 @@ const diary = ref("");
 const isValid = ref(false);
 
 const router = useRouter();
+const runtimeConfig = useRuntimeConfig(); 
 
 const searchMusic = async () => {
   isValid.value = false;
@@ -78,9 +81,37 @@ const saveMemory = async () => {
   router.push("/");
 };
 
+const loginUrl = computed(() => {
+  const clientId = runtimeConfig.public.clientId;// as string;
+  const redirectUri = runtimeConfig.public.redirectUri;// as string;
+
+  const scope = [
+    'streaming',
+    'user-read-email',
+    'user-read-private',
+    'user-modify-playback-state',
+  ].join(' ');
+
+  const url = new URL('https://accounts.spotify.com/authorize');
+  url.searchParams.set('response_type', 'code');
+  url.searchParams.set('client_id', clientId);
+  url.searchParams.set('scope', scope);
+  url.searchParams.set('redirect_uri', redirectUri);
+
+  return url.href;
+});
+
+// return {
+//   loginUrl,
+// };
+
+// const goToAuthPage = () => {
+//   router.push("/auth");
+// };
 const goToAuthPage = () => {
-  router.push("/auth");
+  window.location.href = loginUrl.value;
 };
+
 </script>
 
 <style scoped>
