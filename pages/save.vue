@@ -1,9 +1,12 @@
 <template>
   <div class="save-container">
     <h1>保存画面</h1>
-    <button @click="goToAuthPage">認証する</button>
+    <div class="button-container">
+      <UButton class="custom-button" @click="goToAuthPage">認証する</UButton>
+    </div>
     <input
       :class="{ valid: isValid }"
+      class="search-bar"
       v-model="query"
       @input="searchMusic"
       placeholder="曲を検索"
@@ -13,9 +16,11 @@
         {{ track.name }} - {{ track.artists[0].name }}
       </li>
     </ul>
-    <input type="file" @change="uploadImage" />
-    <textarea v-model="diary" placeholder="何があったの？"></textarea>
-    <button @click="saveMemory">登録する！</button>
+    <UInput class="input" type="file" @change="uploadImage" />
+    <UTextarea class="textarea" placeholder="何があったの？" />
+    <div class="button-container">
+      <UButton class="custom-button" @click="saveMemory">登録する！</UButton>
+    </div>
   </div>
 </template>
 
@@ -23,7 +28,7 @@
 <script lang="ts" setup>
 import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
-import { useRuntimeConfig } from 'nuxt/app';
+import { useRuntimeConfig } from "nuxt/app";
 
 const query = ref("");
 const tracks = ref([]);
@@ -33,7 +38,7 @@ const diary = ref("");
 const isValid = ref(false);
 
 const router = useRouter();
-const runtimeConfig = useRuntimeConfig(); 
+const runtimeConfig = useRuntimeConfig();
 
 const searchMusic = async () => {
   isValid.value = false;
@@ -83,21 +88,21 @@ const saveMemory = async () => {
 };
 
 const loginUrl = computed(() => {
-  const clientId = runtimeConfig.public.clientId;// as string;
-  const redirectUri = runtimeConfig.public.redirectUri;// as string;
+  const clientId = runtimeConfig.public.clientId; // as string;
+  const redirectUri = runtimeConfig.public.redirectUri; // as string;
 
   const scope = [
-    'streaming',
-    'user-read-email',
-    'user-read-private',
-    'user-modify-playback-state',
-  ].join(' ');
+    "streaming",
+    "user-read-email",
+    "user-read-private",
+    "user-modify-playback-state",
+  ].join(" ");
 
-  const url = new URL('https://accounts.spotify.com/authorize');
-  url.searchParams.set('response_type', 'code');
-  url.searchParams.set('client_id', clientId);
-  url.searchParams.set('scope', scope);
-  url.searchParams.set('redirect_uri', redirectUri);
+  const url = new URL("https://accounts.spotify.com/authorize");
+  url.searchParams.set("response_type", "code");
+  url.searchParams.set("client_id", clientId);
+  url.searchParams.set("scope", scope);
+  url.searchParams.set("redirect_uri", redirectUri);
 
   return url.href;
 });
@@ -112,7 +117,6 @@ const loginUrl = computed(() => {
 const goToAuthPage = () => {
   window.location.href = loginUrl.value;
 };
-
 </script>
 
 <style scoped>
@@ -127,17 +131,63 @@ input[type="file"] {
   margin-top: 20px;
 }
 
-.valid {
-  background-color: #82ff824d;
+.search-bar {
+  margin-bottom: 20px;
+  padding: 5px;
+  border: 1px solid gray;
+  border-radius: 5px;
 }
 
-textarea {
+.valid {
+  background: #82ff824d;
+}
+
+ul {
+  position: fixed;
+  top: 180px;
+  padding: 10px;
+  border-radius: 5px;
+  z-index: 1;
+}
+
+li {
+  background-color: black;
+  border-radius: 5px;
+  padding: 5px;
+  cursor: pointer;
+}
+
+li:hover {
+  background-color: gray;
+}
+
+.textarea {
   margin-top: 20px;
   width: 100%;
   height: 100px;
+  max-width: 700px;
 }
 
 button {
   margin-top: 20px;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.custom-button {
+  width: 200px;
+  height: 50px;
+  font-size: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 </style>
