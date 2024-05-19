@@ -8,15 +8,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import { useRoute } from 'vue-router';
+import { defineComponent } from "vue";
+import { useRoute } from "vue-router";
 
 export default defineComponent({
-  name: 'Callback',
+  name: "Callback",
   data() {
     return {
-      accessToken: '',
-      error: ''
+      accessToken: "",
+      error: "",
     };
   },
   async mounted() {
@@ -30,49 +30,47 @@ export default defineComponent({
       const clientSecret = runtimeConfig.public.clientSecret;
 
       // Spotify API endpoint to request access token
-      const tokenEndpoint = 'https://accounts.spotify.com/api/token';
+      const tokenEndpoint = "https://accounts.spotify.com/api/token";
 
       // Request body for token exchange
       const data = new URLSearchParams();
-      data.append('grant_type', 'authorization_code');
-      data.append('code', code);
-      data.append('redirect_uri', `${window.location.origin}/callback`);
+      data.append("grant_type", "authorization_code");
+      data.append("code", code);
+      data.append("redirect_uri", `${window.location.origin}/callback`);
 
       // Base64 encode client ID and client secret
       const basicAuth = btoa(`${clientId}:${clientSecret}`);
 
       // Fetch request to Spotify token endpoint
       const response = await fetch(tokenEndpoint, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-          'Authorization': `Basic ${basicAuth}`
+          "Content-Type": "application/x-www-form-urlencoded",
+          Authorization: `Basic ${basicAuth}`,
         },
-        body: data
+        body: data,
       });
 
       if (!response.ok) {
-        throw new Error('Network response was not ok');
+        throw new Error("Network response was not ok");
       }
 
       const responseData = await response.json();
       this.accessToken = responseData.access_token;
 
       // Now you have the access token, you can save it or use as needed
-      console.log('Access Token:', this.accessToken);
+      console.log("Access Token:", this.accessToken);
     } catch (error) {
-      console.error('Error fetching access token:', error);
-      this.error = error.message || 'Failed to get access token';
+      console.error("Error fetching access token:", error);
+      this.error = (error as any).message || "Failed to get access token";
     }
-  }
+  },
 });
 </script>
 
 <style>
 /* Add your styles here if needed */
 </style>
-
-
 
 <!-- <template>
   <div>

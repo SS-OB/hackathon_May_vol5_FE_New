@@ -6,7 +6,7 @@
         class="grid-item"
         v-for="item in items"
         :key="item.id"
-        @click="goToMusicPage(item.music_id)"
+        @click="goToMusicPage(item)"
       >
         <img :src="item.image_path" alt="Memory Image" />
         <p>{{ item.diary }}</p>
@@ -36,8 +36,12 @@ const goToSavePage = () => {
   router.push("/save");
 };
 
-const goToMusicPage = (musicid) => {
-  router.push({ name: "music", params: { musicid } });
+const goToMusicPage = (item) => {
+  router.push({
+    name: "music",
+    params: { musicid: item.music_id },
+    query: { item: JSON.stringify(item) },
+  });
 };
 </script>
 
