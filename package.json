@@ -1,4 +1,5 @@
 {
+  "proxy": "http://localhost:8080",
   "name": "nuxt-app",
   "private": true,
   "type": "module",
